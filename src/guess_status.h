@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 
-enum class guess_status { Unknown, Correct, Wrong_Location, Solved} ;
+enum class guess_status { Unknown, Correct, Wrong_Location, Incorrect} ;
 
 std::ostream& operator<<(std::ostream& os, const guess_status& gs) {
     std::string s = "";
@@ -13,11 +13,13 @@ std::ostream& operator<<(std::ostream& os, const guess_status& gs) {
             s += " ";
             break;
         case guess_status::Correct:
-        case guess_status::Solved:
             s += "*";
             break;
         case guess_status::Wrong_Location:
             s += "^";
+            break;
+        case guess_status::Incorrect:
+            s += ".";
             break;
     }
 

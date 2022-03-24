@@ -28,6 +28,7 @@ void wordlist::set_done_loading() {
 }
 
 void wordlist::add(std::string word) {
+    std::transform(word.begin(), word.end(), word.begin(), tolower);
     words.push_back(word);
 }
 

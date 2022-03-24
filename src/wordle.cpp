@@ -48,10 +48,26 @@ int main() {
             }
         }
 
+        std::transform(guess.begin(), guess.end(), guess.begin(), tolower);
+
         // check guess
-        std::string result = puz->check_answer(guess);
+        std::vector<key> result = puz->check_answer(guess);
         std::cout << guess << std::endl;
-        std::cout << result << std::endl;
+        // display result and update keyboard
+        for(auto k : result) {
+            std::cout << k.status;
+        }
+        std::cout << std::endl;
+        // update keyboard
+        // TODO fix this BAD BAD BAD code
+        for (int i=0; i<wordlength; i++) {
+            for (int j=0; j<26; j++) {
+                if (result[i].name == kbd.keys[j].name) {
+                    kbd.keys[j].status = result[i].status;
+                }
+            }
+        }
+
     }
 
     // free up memory before quitting
