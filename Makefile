@@ -14,7 +14,7 @@ OBJ_PATH := obj
 SRC_PATH := src
 
 
-TARGET_NAME := raytrace
+TARGET_NAME := wordle
 #TESTS_TARGET_NAME := tests
 ifeq ($(OS),Windows_NT)
 	TARGET_NAME := $(addsuffix .exe,$(TARGET_NAME))
