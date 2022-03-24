@@ -26,7 +26,7 @@ std::string puzzle::check_answer(std::string ans) {
     // answer and see how it compares to the puzzle solution.
 
     if(ans == solution) {
-        return "* * * * *";
+        return "*****";
     }
     
 
@@ -35,14 +35,14 @@ std::string puzzle::check_answer(std::string ans) {
     for (int i=0; i<5; i++) {
         if (ans[i] == solution[i]) {
             // letter is in correct spot
-            result += "* ";
+            result += "*";
         } else {
             // letter is either in incorrect spot or just not in puzzle
             // solution at all
             if (is_char_in_solution(ans[i])) {
-                result += "^ ";
+                result += "^";
             } else {
-                result += ". ";
+                result += ".";
             }
         }
     }

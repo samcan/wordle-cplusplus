@@ -17,8 +17,21 @@ int main() {
     // create puzzle
     puzzle* puz = new puzzle(words->pop_last_word());
 
-    std::cout << puz->check_answer("darth") << std::endl;
-    std::cout << puz->check_answer("death") << std::endl;
+    // get guesses
+    std::string guess;
+    for (int i=0; i<6; i++) {
+        std::cout << "> ";
+        std::cin >> guess;
+
+        if (guess.length() > 5) {
+            guess = guess.substr(0, 5);
+        }
+
+        // check guess
+        std::string result = puz->check_answer(guess);
+        std::cout << guess << std::endl;
+        std::cout << result << std::endl;
+    }
 
     // free up memory before quitting
     delete(puz);
