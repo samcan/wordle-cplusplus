@@ -14,11 +14,15 @@
 
 
 void load_words(wordlist *list);
+void update_keyboard(std::vector<key> result, keyboard &kbd);
+void output_guess_result(std::ostream& os, std::string guess, std::vector<key> result);
 
 int main() {
     // load words into wordlist
+    std::cout << "Loading wordlist... ";
     wordlist* puzzle_answers = new unsorted_wordlist();
     wordlist* valid_guesses = new sorted_wordlist();
+    std::cout << "done" << std::endl;
     load_words(puzzle_answers);
     load_words(valid_guesses);
 
@@ -48,23 +52,17 @@ int main() {
             }
         }
 
-        std::transform(guess.begin(), guess.end(), guess.begin(), tolower);
+        // transform guess to lowercase
+        strtolower(guess);
 
         // check guess
         std::vector<key> result = puz->check_answer(guess);
-        std::cout << guess << std::endl;
         
-        // display result of guess
-        for(auto k : result) {
-            std::cout << k.status;
-        }
-        std::cout << std::endl;
+        // display guess and its result
+        output_guess_result(std::cout, guess, result);
         
         // update keyboard
-        for (int i=0; i<wordlength; i++) {
-            int j = static_cast<int>(result[i].name) - 'a';
-            kbd.keys[j].status = result[i].status;
-        }
+        update_keyboard(result, kbd);
 
     }
 
@@ -76,13 +74,24 @@ int main() {
     return 0;
 }
 
+void output_guess_result(std::ostream& os, std::string guess, std::vector<key> result) {
+    std::cout << guess << std::endl;
+    for(auto k : result) {
+        os << k.status;
+    }
+    os << std::endl;
+}
+
+void update_keyboard(std::vector<key> result, keyboard& kbd) {
+    for (int i=0; i<wordlength; i++) {
+        int j = static_cast<int>(result[i].name) - 'a';
+        kbd.keys[j].status = result[i].status;
+    }
+}
+
 void load_words(wordlist *list) {
     std::string filename = "words.txt";
     std::ifstream f;
-
-    std::cout << "Loading wordlist... ";
-
-
     f.open(filename.c_str());
 
     // each word is only 5 chars long plus the \n char
@@ -93,6 +102,4 @@ void load_words(wordlist *list) {
     list->set_done_loading();
 
     f.close();
-
-    std::cout << "done" << std::endl;
 }
