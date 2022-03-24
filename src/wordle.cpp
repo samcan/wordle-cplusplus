@@ -15,6 +15,7 @@
 
 void load_words(wordlist *list);
 void update_keyboard(std::vector<key> result, keyboard &kbd);
+void prompt_for_guess(std::ostream& os, int current_guess, int number_of_guesses);
 void output_guess_result(std::ostream& os, std::string guess, std::vector<key> result);
 
 int main() {
@@ -35,20 +36,19 @@ int main() {
     // get guesses
     std::string guess;
     for (int i=0; i<max_num_of_guesses; i++) {
-        std::cout << "Guesses remaining: " << max_num_of_guesses-i << std::endl;
-        std::cout << std::endl;
-        
+        // display keyboard with keys remaining
         std::cout << kbd << std::endl;
 
         bool valid_guess_entered = false;
         while (!valid_guess_entered) {
-            std::cout << "> ";
+            prompt_for_guess(std::cout, i, max_num_of_guesses);
             std::cin >> guess;
 
             if (guess.length() != wordlength) {
                 std::cout << "Enter a valid 5-letter word." << std::endl;
             } else {
                 if (valid_guesses->find(guess)) {
+                    // confirmed that guess is a valid word from wordlist
                     valid_guess_entered = !valid_guess_entered;
                 } else {
                     std::cout << "You must enter a valid 5-letter word." << std::endl;
@@ -76,6 +76,10 @@ int main() {
     delete(valid_guesses);
 
     return 0;
+}
+
+void prompt_for_guess(std::ostream& os, int current_guess, int number_of_guesses) {
+    os << current_guess+1 << "/" << number_of_guesses << " > ";
 }
 
 void output_guess_result(std::ostream& os, std::string guess, std::vector<key> result) {
