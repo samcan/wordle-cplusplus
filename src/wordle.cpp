@@ -9,11 +9,11 @@
 #include "unsorted_wordlist.h"
 #include "sorted_wordlist.h"
 #include "puzzle.h"
+#include "key.h"
 
 
 
 void load_words(wordlist *list);
-void display_keyboard();
 
 int main() {
     // load words into wordlist
@@ -21,6 +21,9 @@ int main() {
     wordlist* valid_guesses = new sorted_wordlist();
     load_words(puzzle_answers);
     load_words(valid_guesses);
+
+    // build keyboard
+    keyboard kbd;
 
     // create puzzle
     puzzle* puz = new puzzle(puzzle_answers->pop_last_word());
@@ -31,7 +34,7 @@ int main() {
         std::cout << "Guesses remaining: " << max_num_of_guesses-i << std::endl;
         std::cout << std::endl;
         
-        display_keyboard();
+        std::cout << kbd << std::endl;
 
         bool valid_guess_entered = false;
         while (!valid_guess_entered) {
@@ -78,18 +81,4 @@ void load_words(wordlist *list) {
     f.close();
 
     std::cout << "done" << std::endl;
-}
-
-void display_keyboard() {
-    char C = 'A';
-    for (int y=0; y<3; y++) {
-        for (int x=0; x<9; x++) {
-            if (y==2 && C == '[') {
-                continue;
-            }
-            std::cout << C << " ";
-            C++;
-        }
-        std::cout << std::endl;
-    }
 }
