@@ -23,6 +23,7 @@ int main() {
     // get guesses
     std::string guess;
     for (int i=0; i<max_num_of_guesses; i++) {
+        std::cout << "Guesses remaining: " << max_num_of_guesses-i << std::endl;
         bool valid_guess_entered = false;
         while (!valid_guess_entered) {
             std::cout << "> ";
