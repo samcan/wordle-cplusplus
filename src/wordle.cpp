@@ -53,19 +53,17 @@ int main() {
         // check guess
         std::vector<key> result = puz->check_answer(guess);
         std::cout << guess << std::endl;
-        // display result and update keyboard
+        
+        // display result of guess
         for(auto k : result) {
             std::cout << k.status;
         }
         std::cout << std::endl;
+        
         // update keyboard
-        // TODO fix this BAD BAD BAD code
         for (int i=0; i<wordlength; i++) {
-            for (int j=0; j<26; j++) {
-                if (result[i].name == kbd.keys[j].name) {
-                    kbd.keys[j].status = result[i].status;
-                }
-            }
+            int j = static_cast<int>(result[i].name) - 'a';
+            kbd.keys[j].status = result[i].status;
         }
 
     }
