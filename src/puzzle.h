@@ -2,7 +2,7 @@
 #define _PUZZLE_H_
 
 #include <string>
-
+#include "wordle.h"
 // This class will "be" the puzzle. It'll have a word assigned, and then each
 // guess will be checked against it.
 
@@ -32,7 +32,7 @@ std::string puzzle::check_answer(std::string ans) {
 
     // we have to determine the exact results of this potential answer
     std::string result;
-    for (int i=0; i<5; i++) {
+    for (int i=0; i<wordlength; i++) {
         if (ans[i] == solution[i]) {
             // letter is in correct spot
             result += "*";

@@ -4,11 +4,11 @@
 #include <vector>
 /* #include <ncurses/ncurses.h> */
 
+#include "wordle.h"
 #include "wordlist.h"
 #include "puzzle.h"
 
-const int max_num_of_guesses = 6;
-const int wordlength = 5;
+
 
 void load_words(wordlist *list);
 
