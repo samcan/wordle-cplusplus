@@ -6,6 +6,8 @@
 
 #include "wordle.h"
 #include "wordlist.h"
+#include "unsorted_wordlist.h"
+#include "sorted_wordlist.h"
 #include "puzzle.h"
 
 
@@ -14,11 +16,13 @@ void load_words(wordlist *list);
 
 int main() {
     // load words into wordlist
-    wordlist* words = new wordlist();
-    load_words(words);
+    wordlist* puzzle_answers = new unsorted_wordlist();
+    wordlist* valid_guesses = new sorted_wordlist();
+    load_words(puzzle_answers);
+    load_words(valid_guesses);
 
     // create puzzle
-    puzzle* puz = new puzzle(words->pop_last_word());
+    puzzle* puz = new puzzle(puzzle_answers->pop_last_word());
 
     // get guesses
     std::string guess;
@@ -44,7 +48,8 @@ int main() {
 
     // free up memory before quitting
     delete(puz);
-    delete(words);
+    delete(puzzle_answers);
+    delete(valid_guesses);
 
     return 0;
 }
@@ -63,6 +68,7 @@ void load_words(wordlist *list) {
     while (f.getline(word, wordlength+1)) {
         list->add(word);
     }
+    list->set_done_loading();
 
     f.close();
 

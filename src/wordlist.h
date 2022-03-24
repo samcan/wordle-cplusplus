@@ -3,16 +3,29 @@
 
 #include <vector>
 #include <string>
+#include <algorithm>
 
 class wordlist {
     public:
-        void add(std::string word);
         int length();
-        std::string pop_last_word();
 
-    private:
+        void add(std::string word);
+        void set_done_loading();
+
+        std::string pop_last_word();
+        virtual bool find(std::string w) = 0;
+
+        virtual ~wordlist() = default;
+    protected:
         std::vector<std::string> words;
+        virtual void set_done_loading_hook() = 0;
 };
+
+
+
+void wordlist::set_done_loading() {
+    set_done_loading_hook();
+}
 
 void wordlist::add(std::string word) {
     words.push_back(word);
