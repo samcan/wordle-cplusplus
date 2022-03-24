@@ -43,6 +43,9 @@ int main() {
         while (!valid_guess_entered) {
             prompt_for_guess(std::cout, i, max_num_of_guesses);
             std::cin >> guess;
+            
+            // transform guess to lowercase
+            strtolower(guess);
 
             if (guess.length() != wordlength) {
                 std::cout << "Enter a valid 5-letter word." << std::endl;
@@ -55,9 +58,6 @@ int main() {
                 }
             }
         }
-
-        // transform guess to lowercase
-        strtolower(guess);
 
         // check guess
         std::vector<key> result = puz->check_answer(guess);
