@@ -21,7 +21,6 @@ class puzzle {
 };
 
 std::vector<key> puzzle::check_answer(std::string ans) {
-    // TODO confirm that answer is in wordlist.
     std::vector<key> result;
     // we have to determine the exact results of this potential answer
     

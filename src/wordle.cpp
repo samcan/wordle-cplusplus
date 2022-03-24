@@ -48,7 +48,11 @@ int main() {
             if (guess.length() != wordlength) {
                 std::cout << "Enter a valid 5-letter word." << std::endl;
             } else {
-                valid_guess_entered = !valid_guess_entered;
+                if (valid_guesses->find(guess)) {
+                    valid_guess_entered = !valid_guess_entered;
+                } else {
+                    std::cout << "You must enter a valid 5-letter word." << std::endl;
+                }
             }
         }
 
