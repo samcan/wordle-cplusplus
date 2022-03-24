@@ -22,9 +22,9 @@ int main() {
     std::cout << "Loading wordlist... ";
     wordlist* puzzle_answers = new unsorted_wordlist();
     wordlist* valid_guesses = new sorted_wordlist();
-    std::cout << "done" << std::endl;
     load_words(puzzle_answers);
     load_words(valid_guesses);
+    std::cout << "done" << std::endl;
 
     // build keyboard
     keyboard kbd;
