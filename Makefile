@@ -7,7 +7,7 @@ HEADER	=
 CC	 = g++
 FLAGS	 = -g -c -Wall -Wextra -std=gnu++17
 #FLAGS_TESTS	 =
-LFLAGS	 = 
+LFLAGS	 = -lncurses
 # LFLAGS_TESTS = -IC:\\boost_1_78_0 -LC:\\boost_1_78_0\\lib -lboost_unit_test_framework-mgw11-mt-x64-1_78
 BIN_PATH := bin
 OBJ_PATH := obj
