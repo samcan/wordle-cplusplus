@@ -29,7 +29,11 @@ class keyboard {
 
 std::ostream& operator<<(std::ostream& os, const keyboard& ks) {
     for (auto k : ks.keys) {
-        os << k.status << (char)toupper(k.name) << " ";
+        if (k.status == guess_status::Incorrect) {
+            os << "   ";
+        } else {
+            os << k.status << (char)toupper(k.name) << " ";
+        }
     }
     return os;
 }
