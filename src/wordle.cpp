@@ -13,6 +13,7 @@
 
 
 void load_words(wordlist *list);
+void display_keyboard();
 
 int main() {
     // load words into wordlist
@@ -28,6 +29,10 @@ int main() {
     std::string guess;
     for (int i=0; i<max_num_of_guesses; i++) {
         std::cout << "Guesses remaining: " << max_num_of_guesses-i << std::endl;
+        std::cout << std::endl;
+        
+        display_keyboard();
+
         bool valid_guess_entered = false;
         while (!valid_guess_entered) {
             std::cout << "> ";
@@ -73,4 +78,18 @@ void load_words(wordlist *list) {
     f.close();
 
     std::cout << "done" << std::endl;
+}
+
+void display_keyboard() {
+    char C = 'A';
+    for (int y=0; y<3; y++) {
+        for (int x=0; x<9; x++) {
+            if (y==2 && C == '[') {
+                continue;
+            }
+            std::cout << C << " ";
+            C++;
+        }
+        std::cout << std::endl;
+    }
 }
