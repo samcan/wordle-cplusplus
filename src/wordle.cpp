@@ -88,9 +88,12 @@ int main() {
 
     }
 
-    if (!winning) {
+    if (!winning && !quitting) {
         // lost the game
         std::cout << std::endl << "Sorry, but you lost! You ran out of guesses." << std::endl;
+        std::cout << "The word was " << puz->answer() << "." << std::endl;
+    } else if (quitting) {
+        std::cout << "The word was " << puz->answer() << "." << std::endl;
     } else {
         std::cout << std::endl << "Congratulations; you won in " << i+1 << " guesses." << std::endl;
     }

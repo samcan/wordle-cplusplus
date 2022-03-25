@@ -12,8 +12,9 @@ class puzzle {
     public:
         puzzle() {}
         puzzle(std::string sol): solution(sol) {};
-    
+
         std::vector<key> check_answer(std::string ans);
+        const std::string answer();
     private:
         bool is_char_in_solution(const char c);
         std::string solution;
@@ -43,6 +44,10 @@ std::vector<key> puzzle::check_answer(std::string ans) {
     }
 
     return result;
+}
+
+const std::string puzzle::answer() {
+    return solution;
 }
 
 bool puzzle::is_char_in_solution(const char c) {
