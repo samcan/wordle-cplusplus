@@ -27,6 +27,7 @@ TARGET := $(BIN_PATH)/$(TARGET_NAME)
 
 all: $(OBJS)
 	$(CC) -g $(OBJ_PATH)/$(OBJS) -o $(TARGET) $(LFLAGS)
+	cp assets/words.txt $(BIN_PATH)/words.txt
 
 wordle.o: $(SRC_PATH)/wordle.cpp
 	$(CC) $(FLAGS) $(SRC_PATH)/wordle.cpp -o $(OBJ_PATH)/wordle.o -std=gnu++17
@@ -36,5 +37,5 @@ wordle.o: $(SRC_PATH)/wordle.cpp
 #	$(TESTS_TARGET)
 
 clean:
-	rm -f $(OBJ_PATH)/$(OBJS) $(TARGET)
+	rm -f $(OBJ_PATH)/$(OBJS) $(TARGET) $(BIN_PATH)/words.txt
 #	rm -f $(TESTS_TARGET)
