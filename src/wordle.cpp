@@ -6,33 +6,38 @@
 
 #include "wordle.h"
 #include "wordlist.h"
-#include "unsorted_wordlist.h"
+#include "shuffled_wordlist.h"
 #include "sorted_wordlist.h"
 #include "puzzle.h"
 #include "key.h"
 
-
+using std::cout;
+using std::cin;
+using std::endl;
 
 void load_words(wordlist *list);
 void update_keyboard(std::vector<key> result, keyboard *kbd);
 void prompt_for_guess(std::ostream& os, int current_guess, int number_of_guesses);
 void output_guess_result(std::ostream& os, std::string guess, std::vector<key> result);
+void output_instructions(std::ostream& os);
 bool is_result_winning(std::vector<key> result);
 
 int main() {
     // load words into wordlist
-    std::cout << "Loading wordlist... ";
-    wordlist* puzzle_answers = new unsorted_wordlist();
+    cout << "Loading wordlist... ";
+    wordlist* puzzle_answers = new shuffled_wordlist();
     wordlist* valid_guesses = new sorted_wordlist();
     load_words(puzzle_answers);
     load_words(valid_guesses);
-    std::cout << "done" << std::endl;
+    cout << "done" << endl;
 
     // build keyboard
     keyboard* kbd = new keyboard();
 
     // create puzzle
     puzzle* puz = new puzzle(puzzle_answers->pop_last_word());
+
+    output_instructions(cout);
 
     // get guesses
     bool quitting = false;
@@ -41,12 +46,12 @@ int main() {
     std::string guess;
     for (i=0; i<max_num_of_guesses; i++) {
         // display keyboard with keys remaining
-        std::cout << *kbd << std::endl;
+        cout << *kbd << endl;
 
         bool valid_guess_entered = false;
         while (!valid_guess_entered) {
-            prompt_for_guess(std::cout, i, max_num_of_guesses);
-            std::cin >> guess;
+            prompt_for_guess(cout, i, max_num_of_guesses);
+            cin >> guess;
             
             // transform guess to lowercase
             strtolower(guess);
@@ -57,13 +62,13 @@ int main() {
             }
 
             if (guess.length() != wordlength) {
-                std::cout << "Enter a valid 5-letter word." << std::endl;
+                cout << "Enter a valid 5-letter word." << endl;
             } else {
                 if (valid_guesses->find(guess)) {
                     // confirmed that guess is a valid word from wordlist
                     valid_guess_entered = !valid_guess_entered;
                 } else {
-                    std::cout << "You must enter a valid 5-letter word." << std::endl;
+                    cout << "You must enter a valid 5-letter word." << endl;
                 }
             }
         }
@@ -76,7 +81,7 @@ int main() {
         std::vector<key> result = puz->check_answer(guess);
         
         // display guess and its result
-        output_guess_result(std::cout, guess, result);
+        output_guess_result(cout, guess, result);
         winning = is_result_winning(result);
         
         // update keyboard
@@ -90,12 +95,12 @@ int main() {
 
     if (!winning && !quitting) {
         // lost the game
-        std::cout << std::endl << "Sorry, but you lost! You ran out of guesses." << std::endl;
-        std::cout << "The word was " << puz->answer() << "." << std::endl;
+        cout << endl << "Sorry, but you lost! You ran out of guesses." << endl;
+        cout << "The word was " << puz->answer() << "." << endl;
     } else if (quitting) {
-        std::cout << "The word was " << puz->answer() << "." << std::endl;
+        cout << "The word was " << puz->answer() << "." << endl;
     } else {
-        std::cout << std::endl << "Congratulations; you won in " << i+1 << " guesses." << std::endl;
+        cout << endl << "Congratulations; you won in " << i+1 << " guesses." << endl;
     }
     // TODO display guess results
 
@@ -122,11 +127,11 @@ void prompt_for_guess(std::ostream& os, int current_guess, int number_of_guesses
 }
 
 void output_guess_result(std::ostream& os, std::string guess, std::vector<key> result) {
-    std::cout << guess << std::endl;
+    cout << guess << endl;
     for(auto k : result) {
         os << k.status;
     }
-    os << std::endl;
+    os << endl;
 }
 
 void update_keyboard(std::vector<key> result, keyboard *kbd) {
@@ -149,4 +154,14 @@ void load_words(wordlist *list) {
     list->set_done_loading();
 
     f.close();
+}
+
+void output_instructions(std::ostream& os) {
+    os << endl;
+    os << "You have " << max_num_of_guesses << " guesses to guess the five-letter word." << endl << endl;
+    os << "Legend:" << endl;
+    os << guess_status::Correct << " Correct letter, correct location" << endl;
+    os << guess_status::Incorrect << " Incorrect, not in puzzle" << endl;
+    os << guess_status::Wrong_Location << " Correct letter, wrong location" << endl;
+    os << endl;
 }
