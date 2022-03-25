@@ -4,11 +4,11 @@ This is a simple Wordle clone coded in C++ for playing on the terminal, in
 the vein of the terminal games you'd find poking around on a Linux box in /usr/bin/games.
 
 ## Compilation
-I've compiled on Windows 10 using both Mingw/Msys64 and WSL2. There's a Makefile in the
+I've compiled on Windows 10 using gcc in both Mingw/Msys64 and WSL2 (Ubuntu). There's a Makefile in the
 project, but if you need to compile manually:
 
 ```
-g++ -Wall -Wextra src/wordle.cpp -o bin/wordle.exe
+g++ -std=gnu++17 -Wall -Wextra src/wordle.cpp -o bin/wordle.exe
 cp assets/words.txt bin/words.txt
 cd bin && .\wordle.exe
 ```
