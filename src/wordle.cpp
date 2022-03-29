@@ -15,6 +15,7 @@ using std::cout;
 using std::cin;
 using std::endl;
 
+std::string get_valid_guess(int cur_guess_num, wordlist* l);
 void load_words(wordlist *list);
 void update_keyboard(std::vector<key> result, keyboard *kbd);
 void prompt_for_guess(std::ostream& os, int current_guess, int number_of_guesses);
@@ -47,33 +48,11 @@ int main() {
     for (i=0; i<max_num_of_guesses; i++) {
         // display keyboard with keys remaining
         cout << *kbd << endl;
+        // will return either a valid 5-letter word or "quit"
+        guess = get_valid_guess(i, valid_guesses);
 
-        bool valid_guess_entered = false;
-        while (!valid_guess_entered) {
-            prompt_for_guess(cout, i, max_num_of_guesses);
-            cin >> guess;
-            
-            // transform guess to lowercase
-            strtolower(guess);
-
-            if (guess == "quit") {
-                quitting = true;
-                break;
-            }
-
-            if (guess.length() != wordlength) {
-                cout << "Enter a valid 5-letter word." << endl;
-            } else {
-                if (valid_guesses->find(guess)) {
-                    // confirmed that guess is a valid word from wordlist
-                    valid_guess_entered = !valid_guess_entered;
-                } else {
-                    cout << "You must enter a valid 5-letter word." << endl;
-                }
-            }
-        }
-
-        if (quitting) {
+        if (guess == word_quit) {
+            quitting = true;
             break;
         }
 
@@ -111,6 +90,32 @@ int main() {
     delete(kbd);
 
     return 0;
+}
+
+std::string get_valid_guess(int cur_guess_num, wordlist* wordl) {
+    std::string guess = "";
+    bool valid_guess_entered = false;
+    while (!valid_guess_entered) {
+        prompt_for_guess(cout, cur_guess_num, max_num_of_guesses);
+        cin >> guess;
+        
+        // transform guess to lowercase
+        strtolower(guess);
+
+        if (guess == word_quit) {
+            return guess;
+        } else if (guess.length() != wordlength) {
+            cout << "Enter a valid 5-letter word." << endl;
+        } else {
+            if (wordl->find(guess)) {
+                // confirmed that guess is a valid word from wordlist
+                valid_guess_entered = true;
+            } else {
+                cout << "You must enter a valid 5-letter word." << endl;
+            }
+        }
+    }
+    return guess;
 }
 
 bool is_result_winning(std::vector<key> result) {
