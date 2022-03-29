@@ -27,9 +27,9 @@ int main() {
     // load words into wordlist
     cout << "Loading wordlist... ";
     wordlist* puzzle_answers = new shuffled_wordlist();
-    wordlist* valid_guesses = new sorted_wordlist();
+    wordlist* valid_words_to_guess = new sorted_wordlist();
     load_words(puzzle_answers);
-    load_words(valid_guesses);
+    load_words(valid_words_to_guess);
     cout << "done" << endl;
 
     // build keyboard
@@ -49,7 +49,7 @@ int main() {
         // display keyboard with keys remaining
         cout << *kbd << endl;
         // will return either a valid 5-letter word or "quit"
-        guess = get_valid_guess(i, valid_guesses);
+        guess = get_valid_guess(i, valid_words_to_guess);
 
         if (guess == word_quit) {
             quitting = true;
@@ -86,7 +86,7 @@ int main() {
     // free up memory before quitting
     delete(puz);
     delete(puzzle_answers);
-    delete(valid_guesses);
+    delete(valid_words_to_guess);
     delete(kbd);
 
     return 0;
